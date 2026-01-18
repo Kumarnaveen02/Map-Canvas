@@ -12,6 +12,18 @@ MapCanvas is a **React + TypeScript** web application for drawing and managing g
 
 ## Screenshots
 
+## Main Interface
+<img width="1916" height="868" alt="image" src="https://github.com/user-attachments/assets/1287d543-f7d2-474a-8310-c2daf7dc8392" />
+
+## Drawing Shapes
+<img width="1918" height="875" alt="image" src="https://github.com/user-attachments/assets/c1754226-b23e-497f-9a24-26ba4bbd1844" />
+
+## Error message for overlap 
+<img width="1919" height="877" alt="image" src="https://github.com/user-attachments/assets/637cfd4c-03b3-4522-82dd-1b7e34710def" />
+
+
+
+
 ## ✨ Features
 
 - **Interactive Map** using OpenStreetMap free tiles

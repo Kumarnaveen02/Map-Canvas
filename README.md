@@ -1,151 +1,213 @@
 # MapCanvas
 
-A React + TypeScript web application for drawing and managing geometrical features on OpenStreetMap with intelligent non-overlapping polygon constraints.
+MapCanvas is a **React + TypeScript** web application for drawing and managing geometrical features on **OpenStreetMap**, with enforced **non-overlapping constraints for polygonal shapes**.
 
-## Live Demo
+---
 
-[View Live Application](https://your-vercel-url.vercel.app)
+## 🌐 Live Demo
+
+👉 https://map-canvas.vercel.app/
+
+---
 
 ## Screenshots
 
-<!-- Add your project screenshots here -->
+## ✨ Features
 
-## Features
+- **Interactive Map** using OpenStreetMap free tiles
+- **Multiple Shape Types**:
+  - Polygon
+  - Rectangle
+  - Circle
+  - LineString
+- **Smart Overlap Prevention**:
+  - Prevents overlapping polygonal features using spatial validation
+- **Dynamic Shape Limits**:
+  - Configurable maximum shapes per type
+- **GeoJSON Export**:
+  - Export all drawn features with geometry and metadata
+- **Clean & Modern UI**:
+  - Sidebar toolbar with real-time feature tracking
 
-- Interactive Map with OpenStreetMap free tiles
-- Multiple Shape Types: Draw Polygons, Rectangles, Circles, and Line Strings
-- Smart Overlap Prevention: Automatic trimming of overlapping polygonal features
-- Dynamic Limits: Configurable maximum shapes per type
-- GeoJSON Export: Export all drawn features with geometry and properties
-- Modern UI: Clean sidebar toolbar with real-time feature tracking
+---
 
-## Prerequisites
+## 📋 Prerequisites
 
-- Node.js (v18 or higher)
+- Node.js **v18 or higher**
 - npm or yarn package manager
 
-## Installation
+---
 
-1. Clone the repository
-   git clone <your-repo-url>
-   cd mapcanvas
+## 🛠️ Installation & Setup
 
-2. Install dependencies
-   npm install
+### 1️⃣ Clone the repository
+```bash
+git clone https://github.com/Kumarnaveen02/Map-Canvas.git
+cd Map-Canvas
+```
 
-3. Run development server
-   npm run dev
+### 2️⃣ Install dependencies
+```bash
+npm install
+```
 
-4. Build for production
-   npm run build
+### 3️⃣ Run development server
+```bash
+npm run dev
+```
 
-The application will be available at http://localhost:5173
+### 4️⃣ Build for production
+```bash
+npm run build
+```
 
-## Usage
+The application will be available at:  
+👉 http://localhost:5173
+
+---
+
+## 🎯 Usage
 
 ### Drawing Features
 
-1. Click on any shape button in the left sidebar (Polygon, Rectangle, Circle, or Line)
-2. The button will highlight to indicate active drawing mode
-3. Click on the map to start drawing:
-   - Polygon: Click to add vertices, double-click to finish
-   - Rectangle: Click and drag to create
-   - Circle: Click center point and drag to set radius
-   - Line String: Click to add points, double-click to finish
+1. Select a shape from the left toolbar
+2. Active mode is highlighted
+3. Draw on the map:
+   - **Polygon**: Click to add points, double-click to finish
+   - **Rectangle**: Click and drag
+   - **Circle**: Click center, drag to set radius
+   - **LineString**: Click to add points, double-click to finish
+
+---
 
 ### Shape Limits
 
 Each shape type has a configurable maximum limit:
-- Polygons: 10
-- Rectangles: 10
-- Circles: 5
-- Line Strings: 15
+
+- Polygons: **10**
+- Rectangles: **10**
+- Circles: **5**
+- LineStrings: **15**
+
+Limits can be changed in:
+```
+src/config/shapeConfig.ts
+```
+
+---
 
 ### Exporting Features
 
-Click the "Export GeoJSON" button at the bottom of the toolbar to download all drawn features as a GeoJSON file.
+Click **“Export GeoJSON”** in the toolbar to download all drawn features as a GeoJSON file.
 
-## Polygon Overlap Logic
+---
 
-The application implements intelligent overlap prevention for polygonal features only (Polygon, Rectangle, Circle):
+## 🧠 Polygon Overlap Logic
 
-### Overlap Detection
-- Uses Turf.js intersect() to detect if two polygons share any area
-- Checks all existing polygonal features against new drawings
+The application enforces spatial constraints **only for polygonal features**:
+- Polygon
+- Rectangle
+- Circle
 
-### Auto-Trimming
+### ✅ Overlap Detection
+- Uses **Turf.js `intersect()`**
+- Compares new geometry with existing polygonal features
+
+### 🚫 Overlap Blocking
 When overlap is detected:
-- Uses Turf.js difference() operation to subtract the overlapping area
-- The new polygon is automatically trimmed to remove the intersection
-- The trimmed polygon is then added to the map
+- The new shape is **blocked**
+- It is **not added to the map**
+- A clear error message is shown
+- Existing shapes remain unchanged
 
-### Full Enclosure Prevention
-- Blocks polygons that completely contain another polygon
-- Shows error message for invalid operations
+### 🔒 Full Enclosure Prevention
+- Prevents polygons drawn **inside** or **around** another polygon
+- Ensures spatial integrity
 
-### Line String Exception
-- Line Strings are excluded from overlap rules
-- Can freely cross or overlap any polygons or other lines
+### ➖ LineString Exception
+- LineStrings are **excluded from overlap rules**
+- They can freely cross polygons or other lines
 
-## Project Structure
+---
 
+## 📁 Project Structure
+
+```text
 mapcanvas/
 ├── src/
-│   ├── components/          # React components
-│   ├── store/              # State management
-│   ├── utils/              # Utility functions
-│   ├── types/              # TypeScript types
-│   ├── config/             # Configuration
-│   └── App.tsx             # Root component
+│   ├── components/
+│   │   ├── MapContainer.tsx
+│   │   ├── Toolbar.tsx
+│   │   └── ErrorNotification.tsx
+│   ├── store/
+│   │   └── useMapStore.ts
+│   ├── utils/
+│   │   ├── geometryUtils.ts
+│   │   └── exportUtils.ts
+│   ├── types/
+│   │   └── feature.ts
+│   ├── config/
+│   │   └── shapeConfig.ts
+│   ├── App.tsx
+│   └── main.tsx
+├── index.html
 ├── package.json
+├── package-lock.json
 ├── tsconfig.json
 ├── vite.config.ts
 └── README.md
+```
 
-## Configuration
+---
 
-### Adjusting Shape Limits
+## ⚙️ Configuration
 
-Edit src/config/shapeConfig.ts:
-
+### Adjust Shape Limits
+```ts
+// src/config/shapeConfig.ts
 export const SHAPE_LIMITS = {
   polygon: 10,
   rectangle: 10,
   circle: 5,
   linestring: 15,
 }
+```
 
-### Customizing Colors
-
-Edit src/config/shapeConfig.ts:
-
+### Customize Colors
+```ts
 export const SHAPE_COLORS = {
   polygon: '#8b5cf6',
   rectangle: '#f59e0b',
   circle: '#10b981',
   linestring: '#06b6d4',
 }
+```
 
-## Dependencies
+---
+
+## 📦 Dependencies
 
 ### Core Libraries
-- React 18.3: UI framework
-- TypeScript 5.3: Type safety
-- Vite 5.1: Build tool and dev server
+- **React 18**
+- **TypeScript 5**
+- **Vite**
 
 ### Mapping Libraries
-- Leaflet 1.9.4: Interactive map rendering
-- Leaflet Draw 1.0.4: Drawing tools
-- React Leaflet 4.2.1: React bindings for Leaflet
+- **Leaflet**
+- **Leaflet-Draw**
+- **React-Leaflet**
 
 ### Spatial Operations
-- Turf.js 7.1: Geospatial analysis and geometry operations
+- **Turf.js**
 
 ### State Management
-- Zustand 4.5: Lightweight state management
+- **Zustand**
 
-## Sample GeoJSON Export
+---
 
+## 🧾 Sample GeoJSON Export
+
+```json
 {
   "type": "FeatureCollection",
   "features": [
@@ -153,7 +215,15 @@ export const SHAPE_COLORS = {
       "type": "Feature",
       "geometry": {
         "type": "Polygon",
-        "coordinates": [[[...]]]
+        "coordinates": [
+          [
+            [77.5946, 12.9716],
+            [77.5950, 12.9716],
+            [77.5950, 12.9720],
+            [77.5946, 12.9720],
+            [77.5946, 12.9716]
+          ]
+        ]
       },
       "properties": {
         "id": "polygon-1705234567890",
@@ -165,33 +235,36 @@ export const SHAPE_COLORS = {
     }
   ]
 }
+```
 
-## Deployment
+---
 
-### Vercel
+## 🚀 Deployment
+
+### Vercel (Recommended)
+```bash
 npm install -g vercel
 vercel
+```
 
 ### Netlify
+```bash
 npm run build
-Drag and drop 'dist' folder to Netlify
+```
+Upload the `dist/` folder to Netlify.
 
-### GitHub Pages
-npm run build
-Deploy 'dist' folder to gh-pages branch
+---
 
-## Browser Support
+## 🌍 Browser Support
 
-- Chrome/Edge (latest)
+- Chrome / Edge (latest)
 - Firefox (latest)
 - Safari (latest)
 
-## License
+---
 
-MIT
-
-## Author
+## 👨‍💻 Author
 
 **Naveen Kumar**
 
-Built as a frontend development assignment demonstrating React, TypeScript, spatial operations, and clean code architecture.
+Built as a frontend development assignment showcasing React, TypeScript, spatial validation, and clean architecture.
